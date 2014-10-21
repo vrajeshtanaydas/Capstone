@@ -1,0 +1,14 @@
+ISGFile = input('Please give the file path for the ISG file you would like parsed: ')
+numSamples = 0
+data = []
+for row, line in enumerate(ISGFile.splitlines()):
+    info = line.split('\t')
+    if row == 0:
+        numSamples = int(info[0].strip('#numSamples='))
+        continue
+    if row == 1:
+        for item in info:
+            data.append(list().append(item))
+        continue
+    for column, item in enumerate(info):
+        data[column].append(item)
