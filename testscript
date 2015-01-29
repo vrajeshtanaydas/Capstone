@@ -4,10 +4,25 @@
 # base framework for the command line interface
 
 # define our vars
+NAME=$(basename $0)             # get the script name
+
 DRYRUN=false                    # dry-run false by default
 QUIET=false                     # quiet false by default
-USAGE="Usage: `basename $0` [-hnvq]"
+USAGE="Usage: ${NAME} [-hnvq]"
 VERBOSE=false                   # verbose false by default
+
+# define our functions
+function Help {
+    echo -e "\tHelp Documentation for ${NAME}"
+    echo -e "\t${USAGE}"
+    echo -e "\t-h -- prints out this help documentation"
+    echo -e "\t-n -- enables dry-run mode; prints what script would do"
+    echo -e "\t-q -- quiet; prevents any output to command line"
+    echo -e "\t-v -- verbose; enables more detailed output to command line"
+    exit 1
+}
+
+
 
 # if no arguments are passed, printout usage
 if [ $# -eq 0 ]
@@ -18,19 +33,21 @@ then
 fi
 
 # getopts gets the short options (the -[char] arguments)
-while getopts "hnqv" Opts
+while getopts ":hnqv" Opts
 do
     case $Opts in
-        -h )    
-            echo "this is the help flag" ;;
-        -n )
+        h )
+            Help ;;    
+        n )
             DRYRUN=true ;;
-        -q )
+        q )
             QUIET=true; VERBOSE=false ;;
-        -v )
+        v )
             VERBOSE=true; QUIET=false ;;
-        * )     # default case 
-            echo "$USAGE"; exit ;;
+        ? )     # default case 
+            echo -e "Unrecognized option -$OPTARG"
+            echo -e "${USAGE}\nUse -h for more detail"; exit ;;
     esac
 done
-exit
+
+exit 0
