@@ -1,0 +1,27 @@
+#!/bin/bash
+# testscript - v0.1
+
+# base framework for the command line interface
+
+# if no arguments are passed, printout usage
+if [ $# -eq 0 ]
+then
+    # TODO - determine correct usage
+    # TODO - potentially store Usage string in a var
+    echo "Usage: ..."
+    exit
+fi
+echo "args passed"
+
+# getopts gets the short options (the -[char] arguments)
+while getopts in $Opt
+do
+    case $Opt in
+        -h )    # this is our help flag
+            echo "this is the help flag" ;;
+        # TODO - use a USAGE var to hold string and just echo usage for default
+        * )     # we need a default case
+            echo "Please use -h or --help for usage information" ;;
+    esac
+done
+exit
