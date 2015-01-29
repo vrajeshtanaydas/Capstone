@@ -4,7 +4,10 @@
 # base framework for the command line interface
 
 # define our vars
-USAGE="Usage: testscript [h]"
+DRYRUN=false                    # dry-run false by default
+QUIET=false                     # quiet false by default
+USAGE="Usage: `basename $0` [-hnvq]"
+VERBOSE=false                   # verbose false by default
 
 # if no arguments are passed, printout usage
 if [ $# -eq 0 ]
@@ -15,13 +18,19 @@ then
 fi
 
 # getopts gets the short options (the -[char] arguments)
-while getopts "h" Opts
+while getopts "hnqv" Opts
 do
     case $Opts in
-        -h )    # this is our help flag
+        -h )    
             echo "this is the help flag" ;;
-        * )     # we need a default case 
-            echo "$USAGE" exit ;;
+        -n )
+            DRYRUN=true ;;
+        -q )
+            QUIET=true; VERBOSE=false ;;
+        -v )
+            VERBOSE=true; QUIET=false ;;
+        * )     # default case 
+            echo "$USAGE"; exit ;;
     esac
 done
 exit
