@@ -3,25 +3,25 @@
 
 # base framework for the command line interface
 
+# define our vars
+USAGE="Usage: testscript [h]"
+
 # if no arguments are passed, printout usage
 if [ $# -eq 0 ]
 then
     # TODO - determine correct usage
-    # TODO - potentially store Usage string in a var
-    echo "Usage: ..."
+    echo "$USAGE"
     exit
 fi
-echo "args passed"
 
 # getopts gets the short options (the -[char] arguments)
-while getopts in $Opt
+while getopts "h" Opts
 do
-    case $Opt in
+    case $Opts in
         -h )    # this is our help flag
             echo "this is the help flag" ;;
-        # TODO - use a USAGE var to hold string and just echo usage for default
-        * )     # we need a default case
-            echo "Please use -h or --help for usage information" ;;
+        * )     # we need a default case 
+            echo "$USAGE" exit ;;
     esac
 done
 exit
