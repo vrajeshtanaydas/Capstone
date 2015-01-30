@@ -8,7 +8,7 @@ NAME=$(basename $0)             # get the script name
 
 DRYRUN=false                    # dry-run false by default
 QUIET=false                     # quiet false by default
-USAGE="Usage: ${NAME} [-hnvq]"
+USAGE="Usage: ${NAME} [-hnvq] args"
 VERBOSE=false                   # verbose false by default
 
 # define our functions
@@ -33,13 +33,19 @@ then
 fi
 
 # getopts gets the short options (the -[char] arguments)
-while getopts ":hnqv" Opts
+while getopts ":hi:no:qv" OPTS
 do
-    case $Opts in
+    # TODO -- should input and output be options or positional param args?
+    #   should input and output be files or directories?
+    case $OPTS in
+        i )
+            INPUT=$OPTARG ;;
         h )
             Help ;;    
         n )
             DRYRUN=true ;;
+        o )
+            OUTPUT=$OPTARG ;;
         q )
             QUIET=true; VERBOSE=false ;;
         v )
@@ -50,4 +56,10 @@ do
     esac
 done
 
+# shift to our first positional parameter argument
+shift $((OPTIND - 1))
+
+# while [ $# -ne 0 ]
+
+python ISGDataPuller.py $INPUT $OUTPUT
 exit 0
