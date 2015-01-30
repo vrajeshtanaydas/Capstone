@@ -1,5 +1,24 @@
-fo = open("clean.unique.variants.txt","r")
-output = open("SNPGROUP.txt","w+")
+# since this is part of the pipeline, we need sys module
+import sys
+
+# expect first argument for the input file
+try:
+    inputFile = sys.argv[1]
+except Exception:
+    raise Exception("No argument provided as input")
+
+# expect second argument for the output file
+try:
+    outputFile = sys.argv[2]
+except Exception:
+    raise Exception("No argument provided as output")
+
+# TODO -- need to handle exceptions better:
+#   file I/O?
+#   wrong file type input?
+
+fo = open(inputFile, "r")
+output = open(outputFile, "w+")
 
 #read in number of genomes from file
 fo.seek(12)
