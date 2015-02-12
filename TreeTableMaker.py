@@ -6,7 +6,7 @@ import re
 def preprocess(fileString):
     fileString = fileString.replace("\n","")
     sre = re.compile(':0\.\d+')
-    fileString = sre.sub(" ",fileString)
+    fileString = sre.sub("",fileString)
     stringList = []
     pos = 0
     for char in fileString:
@@ -18,26 +18,26 @@ def preprocess(fileString):
             continue
         else:
             name = ''
-            while fileString[pos] not in ['(', ')', ',']:
+            while fileString[pos] not in ['(', ')', ',',';']:
                 name += fileString[pos]
                 pos += 1
             if name != '':
                 stringList.append(name)
-    return fileString
+    return stringList
 
-def branchFinder(fileString):
+def branchFinder(processedString):
     branches = []
     opens = []
     bpos = 0
 
-    for i, char in enumerate(fileString):
-        if i == 0 or i == len(fileString) - 1:
+    for i, char in enumerate(processedString):
+        if i == 0 or i == len(processedString) - 1:
             continue
         if char == '(':
             opens.append(i)
         elif char == ')':
             branches.append([])
-            for letter in fileString[opens.pop()+1:i]:
+            for letter in processedString[opens.pop()+1:i]:
                 if letter in [',', '(', ')']:
                     continue
                 else:
@@ -69,7 +69,7 @@ def parentChildFinder(branches):
             parents.append(-1)
     return (parents, children)
 
-fo = open("test.txt", "r")
+fo = open("testTree.txt", "r")
 
 fs = fo.read();
 processed = preprocess(fs)
