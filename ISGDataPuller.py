@@ -22,11 +22,12 @@ output = open(outputFile, "w+")
 
 #read in number of genomes from file
 fo.seek(12)
-numGenomes = int(fo.readline().strip())
+numGenomes = int((fo.readline()).strip())
 numGenomes += 1            #add one to include reference genome 
 
 #read in header row
-arrLine = fo.readline().strip().split("\t")
+arrLine = []
+arrLine = (fo.readline().strip().split("\t"))
 
 #place genome names in array
 arrGenomeName = []
@@ -38,7 +39,8 @@ for word in arrLine:
     
 #Determine genome group SNP differentiates 
 for line in fo.readlines():
-    arrLine = line.strip().split("\t")
+    arrLine = []
+    arrLine = (line.strip().split("\t"))
     strChrom = arrLine[0]
     strPos = arrLine[1]
     arrSNP = []
@@ -63,37 +65,37 @@ for line in fo.readlines():
         intCounter += 1
     #Checking if there at least 2 groups of at least 2 genomes
     intGroups = 0
-    if(len(arrA) > 1):
+    if(len(arrA) >= 1):
         intGroups += 1
-    if(len(arrT) > 1):
+    if(len(arrT) >= 1):
         intGroups += 1
-    if(len(arrC) > 1):
+    if(len(arrC) >= 1):
         intGroups += 1
-    if(len(arrG) > 1):
+    if(len(arrG) >= 1):
         intGroups += 1
     #Write to file
-    if(intGroups > 1):
+    if(intGroups >= 1):
         output.write(strChrom + "\t" + strPos + "\n")
         #Only write groups with more than 1 element
-        if(len(arrA) > 1):
+        if(len(arrA) >= 1):
             output.write("[")
             for strGenome in arrA:
                 output.write(strGenome)
                 output.write("\t")
             output.write("] \n")
-        if(len(arrT) > 1):
+        if(len(arrT) >= 1):
             output.write("[")
             for strGenome in arrT:
                 output.write(strGenome)
                 output.write("\t")
             output.write("] \n")
-        if(len(arrC) > 1):
+        if(len(arrC) >= 1):
             output.write("[")
             for strGenome in arrC:
                 output.write(strGenome)
                 output.write("\t")
             output.write("] \n")
-        if(len(arrG) > 1):
+        if(len(arrG) >= 1):
             output.write("[")
             for strGenome in arrG:
                 output.write(strGenome)
