@@ -22,12 +22,11 @@ output = open(outputFile, "w+")
 
 #read in number of genomes from file
 fo.seek(12)
-numGenomes = int((fo.readline()).strip())
+numGenomes = int(fo.readline().strip())
 numGenomes += 1            #add one to include reference genome 
 
 #read in header row
-arrLine = []
-arrLine = (fo.readline().strip().split("\t"))
+arrLine = fo.readline().strip().split("\t")
 
 #place genome names in array
 arrGenomeName = []
@@ -39,8 +38,7 @@ for word in arrLine:
     
 #Determine genome group SNP differentiates 
 for line in fo.readlines():
-    arrLine = []
-    arrLine = (line.strip().split("\t"))
+    arrLine = line.strip().split("\t")
     strChrom = arrLine[0]
     strPos = arrLine[1]
     arrSNP = []
