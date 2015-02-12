@@ -72,7 +72,7 @@ for line in fo.readlines():
     if(len(arrG) > 1):
         intGroups += 1
     #Write to file
-    if(intGroups > 1):
+    if(intGroups >= 1):
         output.write(strChrom + "\t" + strPos + "\n")
         #Only write groups with more than 1 element
         if(len(arrA) > 1):
