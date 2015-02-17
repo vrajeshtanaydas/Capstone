@@ -18,6 +18,8 @@ class TreeTable(object):
         fo.close()
 
 
+
+
     def get_siblings(self, species):
         pass
 
@@ -80,7 +82,7 @@ class TreeTable(object):
         for i, branch in enumerate(branches):
             if i != len(branches) - 1:
                 j = i + 1
-                while not set(branch) < set(branches[j]):
+                while not frozenset(branch) < frozenset(branches[j]):
                     if j == len(branches) - 1:
                         j = -1
                         break

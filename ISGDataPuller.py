@@ -1,15 +1,16 @@
  
 # since this is part of the pipeline, we need sys module
 import sys
+import EntropyCalculator
 
-def main(inputFile, outputFile):
+def main(inputFile, treeTable, dataPullerOutput):
 
     # TODO -- need to handle exceptions better:
     #   file I/O?
     #   wrong file type input?
 
     fo = open(inputFile, "r")
-    output = open(outputFile, "w+")
+    output = open(dataPullerOutput, "w+")
 
     #read in number of genomes from file
     fo.seek(12)
@@ -37,10 +38,10 @@ def main(inputFile, outputFile):
         for i in range(2,numGenomes+2):
             arrSNP.append(arrLine[i])
         #sort Genomes into groups by SNP call
-        arrA = []
-        arrT = []
-        arrC = []
-        arrG = []
+        arrA = ['A']
+        arrT = ['T']
+        arrC = ['C']
+        arrG = ['G']
         intCounter = 0
         for j in arrSNP:
             if(arrSNP[intCounter] == 'A'):
@@ -62,6 +63,10 @@ def main(inputFile, outputFile):
             intGroups += 1
         if(len(arrG) >= 1):
             intGroups += 1
+
+        # calculate entropy values
+        EntropyCalculator.main(treeTable, frozenset(arrA), frozenset(arrT), frozenset(arrC), frozenset(arrG))
+
         #Write to file
         if(intGroups >= 1):
             output.write(strChrom + "\t" + strPos + "\n")
