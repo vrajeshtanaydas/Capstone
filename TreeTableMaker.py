@@ -3,18 +3,18 @@ import re
 
 class TreeTable(object):
 
-    def __init__(self, file):
+    def __init__(self, inFile):
         #fo = open("testTree.txt", "r")
-        fo = open(file, "r")
+        fo = open(inFile, "r")
         fs = fo.read();
-        processed = preprocess(fs)
-        self.branches = branchFinder(processed)
-        self.parents, self.children = parentChildFinder(branches)
+        processed = self.preprocess(fs)
+        self.branches = self.branchFinder(processed)
+        self.parents, self.children = self.parentChildFinder(self.branches)
         # print for debugging
         print(processed)
-        print(branches)
-        print(parents)
-        print(children)
+        print(self.branches)
+        print(self.parents)
+        print(self.children)
         fo.close()
 
 
