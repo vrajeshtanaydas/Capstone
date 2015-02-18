@@ -1,30 +1,39 @@
-# since this is part of the pipeline, we need sys module
-import sys
-import ISGDataPuller
-import EntropyCalculator
-from TreeTableMaker import TreeTable
+def main(dataPullerOutput, sequenceLength):
+    sequences = []
+    fo = open(dataPullerOutput, 'r')
+    lines = fo.readlines()
+    for i, line in enumerate(lines):
+        lines[i] = line.split('\t')
+    lineIndex = 0
+    while lineIndex < len(lines):
+        sequences.append(Sequence(lines, lineIndex, sequenceLength))
+        lineIndex += 5
+    return sequences
 
-# expect first argument for the input file
-try:
-    inputFile = sys.argv[1]
-except Exception:
-    raise Exception("No argument provided as input")
+class Sequence(object):
 
-# expect second argument for the output file
-try:
-    outputFile = sys.argv[2]
-except Exception:
-    raise Exception("No argument provided as output")
 
-try:
-    treeFile = sys.argv[3]
-except Exception:
-    raise Exception("No argument provided for phylogenetic tree")
-
-dataPullerOutput = "dataPullerOutput.txt"
-
-treeTable = TreeTable(treeFile)
-
-ISGDataPuller.main(inputFile, treeTable, dataPullerOutput)
-
-#EntropyCalculator.main(treeTable, dataPullerOutput)
+    def __init__(self, lines, lineIndex, sequenceLength):
+        self.mutualInformation = 0
+        self.startPosition = int(lines[lineIndex][1])
+        self.SNPList = []
+        position = self.startPosition
+        while position <= (self.startPosition + sequenceLength):
+            #entropy = int(lines[lineIndex][2])
+            self.SNPList.append(position) # append (position, entropy)
+            lineIndex += 5
+            if lineIndex >= len(lines):
+                break
+            position = int(lines[lineIndex][1])
+    
+    def getSNPList(self):
+        return self.SNPList
+    
+    def getStartPosition(self):
+        return self.startPosition
+    
+    def setMutualInformation(self, value):
+        self.mutualInformation = value
+    
+    def getMutualInformation(self):
+        return self.mutualInformation

@@ -95,8 +95,6 @@ def main(inputFile, treeTable, dataPullerOutput):
                     output.write(strGenome)
                     output.write("\t")
                 output.write("] \n")
-                
-            output.write("\n")
             
     fo.close()
     output.close()
