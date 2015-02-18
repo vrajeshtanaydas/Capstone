@@ -1,7 +1,23 @@
 # regular expression module
 import re
 
-class TreeTable(object):
+class TreeTableNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+        self.parent = []
+
+    def add_child(self, obj):
+        self.children.append(obj)
+
+    def add_parent(self, obj):
+        self.parent.append(obj)
+
+    def get_parent(self):
+        return self.parent[0]
+
+
+class TreeTable:
 
     def __init__(self, inFile):
         #fo = open("testTree.txt", "r")
@@ -20,11 +36,11 @@ class TreeTable(object):
 
 
 
-    def get_siblings(self, species):
+    def get_root(self, species):
         pass
 
     def get_tree(self):
-        return self
+        return parents, children
 
     # this removes branch length values
     # returns a Newick formatted string
@@ -54,12 +70,22 @@ class TreeTable(object):
         branches = []
         opens = []
         bpos = 0
+        
+        node_counter = 1
+        root = TreeTableNode(0)
+        current_node = root
 
         for i, char in enumerate(processedString):
             if i == 0 or i == len(processedString) - 1:
                 continue
             if char == '(':
                 opens.append(i)
+                node = TreeTableNode(node_counter)
+                node.add_parent(current_node)
+                current_node.add_child(node)
+                current_node = node
+                node_counter += 1
+                
             elif char == ')':
                 branches.append([])
                 for letter in processedString[opens.pop()+1:i]:
@@ -67,12 +93,18 @@ class TreeTable(object):
                         continue
                     else:
                         branches[bpos].append(letter)
+                        if current_node != root:
+                            current_node = current_node.get_parent()
                 bpos += 1
             elif char == ',':
                 continue
             else:
                 branches.append([char])
+                n = TreeTableNode(char)
+                current_node.add_child(n)
                 bpos += 1
+        
+        print(root.children[1].children[0].data)
         return branches
 
     def parentChildFinder(self, branches):
