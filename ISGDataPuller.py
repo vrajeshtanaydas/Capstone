@@ -65,7 +65,7 @@ def main(inputFile, treeTable, dataPullerOutput):
             intGroups += 1
 
         # calculate entropy values
-        EntropyCalculator.main(treeTable, frozenset(arrA), frozenset(arrT), frozenset(arrC), frozenset(arrG))
+        entropy = EntropyCalculator.main(treeTable, frozenset(arrA), frozenset(arrT), frozenset(arrC), frozenset(arrG))
 
         #Write to file
         if(intGroups >= 1):

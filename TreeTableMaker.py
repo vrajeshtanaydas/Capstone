@@ -2,8 +2,9 @@
 import re
 
 class TreeTableNode:
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, name):
+        self.data = ""
+        self.name = str(name)
         self.children = []
         self.parent = []
 
@@ -26,6 +27,7 @@ class TreeTable:
         processed = self.preprocess(fs)
         self.branches = self.branchFinder(processed)
         self.parents, self.children = self.parentChildFinder(self.branches)
+        self.root
         # print for debugging
         print(processed)
         print(self.branches)
@@ -36,8 +38,8 @@ class TreeTable:
 
 
 
-    def get_root(self, species):
-        pass
+    def get_root(self):
+        return self.root
 
     def get_tree(self):
         return parents, children
@@ -72,8 +74,8 @@ class TreeTable:
         bpos = 0
         
         node_counter = 1
-        root = TreeTableNode(0)
-        current_node = root
+        self.root = TreeTableNode(0)
+        current_node = self.root
 
         for i, char in enumerate(processedString):
             if i == 0 or i == len(processedString) - 1:
@@ -93,7 +95,7 @@ class TreeTable:
                         continue
                     else:
                         branches[bpos].append(letter)
-                        if current_node != root:
+                        if current_node != self.root:
                             current_node = current_node.get_parent()
                 bpos += 1
             elif char == ',':
@@ -104,7 +106,7 @@ class TreeTable:
                 current_node.add_child(n)
                 bpos += 1
         
-        print(root.children[1].children[0].data)
+        #print(root.children[1].children[0].name) # DEBUG
         return branches
 
     def parentChildFinder(self, branches):
