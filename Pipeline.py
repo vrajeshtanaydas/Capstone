@@ -26,9 +26,12 @@ dataPullerOutput = "dataPullerOutput.txt"
 
 treeTable = TreeTable(treeFile)
 
-ISGDataPuller.main(inputFile, treeTable, dataPullerOutput)
+ISGData = ISGDataPuller.main(inputFile, treeTable, dataPullerOutput)
+print("hello")
 
-sequences = SequenceFinder.main(dataPullerOutput, 25)
+ISGData[1].printSNP()
+print("goodbye")
+sequences = SequenceFinder.main(ISGData, 25)
 
 for sequence in sequences:
     print(sequence.getSNPList())

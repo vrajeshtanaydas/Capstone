@@ -12,6 +12,8 @@ def main(inputFile, treeTable, dataPullerOutput):
     fo = open(inputFile, "r")
     output = open(dataPullerOutput, "w+")
 
+    ISGData = []
+
     #read in number of genomes from file
     fo.seek(12)
     numGenomes = int(fo.readline().strip())
@@ -38,10 +40,10 @@ def main(inputFile, treeTable, dataPullerOutput):
         for i in range(2,numGenomes+2):
             arrSNP.append(arrLine[i])
         #sort Genomes into groups by SNP call
-        arrA = ['A']
-        arrT = ['T']
-        arrC = ['C']
-        arrG = ['G']
+        arrA = []
+        arrT = []
+        arrC = []
+        arrG = []
         intCounter = 0
         for j in arrSNP:
             if(arrSNP[intCounter] == 'A'):
@@ -67,34 +69,48 @@ def main(inputFile, treeTable, dataPullerOutput):
         # calculate entropy values
         entropy = EntropyCalculator.main(treeTable, frozenset(arrA), frozenset(arrT), frozenset(arrC), frozenset(arrG))
 
-        #Write to file
-        if(intGroups >= 1):
-            output.write(strChrom + "\t" + strPos + "\n")
-            #Only write groups with more than 1 element
-            if(len(arrA) >= 1):
-                output.write("[")
-                for strGenome in arrA:
-                    output.write(strGenome)
-                    output.write("\t")
-                output.write("] \n")
-            if(len(arrT) >= 1):
-                output.write("[")
-                for strGenome in arrT:
-                    output.write(strGenome)
-                    output.write("\t")
-                output.write("] \n")
-            if(len(arrC) >= 1):
-                output.write("[")
-                for strGenome in arrC:
-                    output.write(strGenome)
-                    output.write("\t")
-                output.write("] \n")
-            if(len(arrG) >= 1):
-                output.write("[")
-                for strGenome in arrG:
-                    output.write(strGenome)
-                    output.write("\t")
-                output.write("] \n")
+        ISGData.append(SNP(strChrom, int(strPos), entropy, arrA, arrT, arrC, arrG))
+
             
     fo.close()
     output.close()
+
+    return ISGData
+
+class SNP(object):
+
+    def __init__(self, chrom, pos, entropy, aGenomes, tGenomes, cGenomes, gGenomes):
+        self.chrom = chrom
+        self.pos = pos
+        self.entropy = entropy
+        self.aGenomes = aGenomes
+        self.tGenomes = tGenomes
+        self.cGenomes = cGenomes
+        self.gGenomes = gGenomes
+
+    def getChrom(self):
+        return self.chrom
+
+    def getPos(self):
+        return self.pos
+
+    def getEntropy(self):
+        return self.entropy
+
+    def getAGenomes(self):
+        return self.aGenomes
+
+    def getTGenomes(self):
+        return self.tGenomes
+
+    def getCGenomes(self):
+        return self.cGenomes
+
+    def getGGenomes(self):
+        return self.gGenomes
+
+    def printSNP(self):
+        print(self.pos, self.entropy, self.aGenomes, self.tGenomes, self.cGenomes, self.gGenomes)
+
+
+
