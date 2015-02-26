@@ -3,14 +3,13 @@
 import sys
 import EntropyCalculator
 
-def main(inputFile, treeTable, dataPullerOutput):
+def main(inputFile, treeTable):
 
     # TODO -- need to handle exceptions better:
     #   file I/O?
     #   wrong file type input?
 
     fo = open(inputFile, "r")
-    output = open(dataPullerOutput, "w+")
 
     ISGData = []
 
@@ -73,7 +72,6 @@ def main(inputFile, treeTable, dataPullerOutput):
 
             
     fo.close()
-    output.close()
 
     return ISGData
 
