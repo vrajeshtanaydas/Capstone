@@ -75,6 +75,7 @@ def main(inputFile, treeTable):
 
     return ISGData
 
+# class containing information about a specific SNP
 class SNP(object):
 
     def __init__(self, chrom, pos, entropy, aGenomes, tGenomes, cGenomes, gGenomes):

@@ -1,5 +1,6 @@
 from ISGDataPuller import SNP
 
+# main function finds all sequences in ISGData of length sequenceLength and then culls those sequences based on their mutual information
 def main(ISGData, sequenceLength):
     sequences = []
     for i, SNP in enumerate(ISGData):
@@ -23,6 +24,7 @@ def main(ISGData, sequenceLength):
     
     return sequences
 
+# class containing information about a specific sequence
 class Sequence(object):
 
 
@@ -31,6 +33,7 @@ class Sequence(object):
         self.startPosition = ISGData[snpIndex].getPos()
         self.SNPList = []
         position = self.startPosition
+        # adds SNPs to sequence as long as their position is within the sequenceLength
         while position <= (self.startPosition + sequenceLength):
             self.SNPList.append(ISGData[snpIndex])
             snpIndex += 1
@@ -48,6 +51,7 @@ class Sequence(object):
     def getavgMutualInformation(self):
         return self.avgMutualInformation
     
+    # compares each pair of SNPs to determine mutual information
     def calcMutualInformation(self):
         sumMutualInformation = 0
         pairCount = 0
