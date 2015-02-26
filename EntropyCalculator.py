@@ -34,6 +34,28 @@ def visit(currentNode):
             else:
                 currentNode.data = currentNode.children[j].data
         
+#Calculate Value determines the entropy value
+def CalculateValue(treeTable, currentNode):
+    childCharacter = []
+    childNum = len(currentNode.children)
+    #print("\n\tCurrent: " + str(currentNode.data) + "\t NumChildren: " + \
+    #        str(childNum))
+    if childNum == 0:
+        pass
+    elif currentNode.data == 'X' and currentNode != treeTable.get_root():
+        childCharacter.append(currentNode.get_parent().data)
+    else:
+        childCharacter.append(currentNode.data)
+    if childNum != 0:
+        for i in range(childNum):
+            if currentNode.children[i].data in childCharacter or \
+                    currentNode.children[i].data == 'X':
+                pass
+            else:
+                childCharacter.append(currentNode.children[i].data)
+                global groups
+                groups+=1
+            CalculateValue(treeTable,currentNode.children[i])
 
 def BFS(currentNode):
     print("\t" + currentNode.data)
@@ -52,7 +74,11 @@ def main(treeTable, aSet, tSet, cSet, gSet):
     global gGenomes 
     gGenomes = gSet
     visit(treeTable.get_root())
-    treeTable.get_root().data = 'X'
+    #treeTable.get_root().data = 'X'
     print("NEW TABLE")
     BFS(treeTable.get_root())
+    global groups
+    groups = 0
+    CalculateValue(treeTable, treeTable.get_root())
+    print(groups)
     return treeTable
