@@ -55,6 +55,19 @@ def CalculateValue(treeTable, currentNode):
                 childCharacter.append(currentNode.children[i].data)
                 global groups
                 groups+=1
+                if currentNode.children[i].data == 'A':
+                    global a_group
+                    a_group += 1
+                elif currentNode.children[i].data == 'T':
+                    global t_group
+                    t_group += 1
+                elif currentNode.children[i].data == 'C':
+                    global c_group
+                    c_group += 1
+                elif currentNode.children[i].data == 'G':
+                    global g_group
+                    g_group += 1
+
             CalculateValue(treeTable,currentNode.children[i])
 
 def BFS(currentNode):
@@ -78,7 +91,19 @@ def main(treeTable, aSet, tSet, cSet, gSet):
     print("NEW TABLE")
     BFS(treeTable.get_root())
     global groups
+    global a_group
+    global t_group
+    global c_group
+    global g_group
     groups = 0
+    a_group = 0
+    t_group = 0
+    c_group = 0
+    g_group = 0
     CalculateValue(treeTable, treeTable.get_root())
     print(groups)
+    print(a_group)
+    print(t_group)
+    print(c_group)
+    print(g_group)
     return treeTable
