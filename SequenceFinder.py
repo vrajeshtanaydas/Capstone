@@ -6,7 +6,6 @@ def main(ISGData, sequenceLength):
         sequence = Sequence(ISGData, i, sequenceLength)
         sequenceIndex = 0
         if len(sequences):
-            print(len(sequences))
             while sequence.getavgMutualInformation() >= sequences[sequenceIndex].getavgMutualInformation():
                 sequenceIndex += 1
                 if sequenceIndex == len(sequences):
@@ -17,9 +16,13 @@ def main(ISGData, sequenceLength):
     mutualInformationRange = sequences[-1].getavgMutualInformation() - sequences[0].getavgMutualInformation()
     mutualInformationThreshold = mutualInformationRange / 2 + sequences[0].getavgMutualInformation()
     thresholdIndex = 0
-    while sequences[thresholdIndex].getavgMutualInformation() <= mutualInformationThreshold:
-        thresholdIndex += 1
-    sequences = sequences[:thresholdIndex]
+    #while sequences[thresholdIndex].getavgMutualInformation() <= mutualInformationThreshold:
+    #    thresholdIndex += 1
+    #sequences = sequences[:thresholdIndex]
+
+    for sequence in sequences:
+        sequence.findDifferentiatedSpecies()
+
     
     return sequences
 
@@ -30,6 +33,8 @@ class Sequence(object):
         self.avgMutualInformation = 1
         self.startPosition = ISGData[snpIndex].getPos()
         self.SNPList = []
+        self.differentiatedSpecies = []
+        
         position = self.startPosition
         while position <= (self.startPosition + sequenceLength):
             self.SNPList.append(ISGData[snpIndex])
@@ -60,4 +65,50 @@ class Sequence(object):
                     sumMutualInformation += hx + hy - hxy
                     pairCount += 1
         self.avgMutualInformation = sumMutualInformation / pairCount
+
+    def findDifferentiatedSpecies(self):
+        speciesDict = {}
+        speciesList = []
+        
+        for SNP in self.SNPList:
+            for species in SNP.getAGenomes():
+                if species in speciesDict:
+                    speciesDict[species] += 'a'
+                else:
+                    speciesDict[species] = 'a'
+            for species in SNP.getTGenomes():
+                if species in speciesDict:
+                    speciesDict[species] += 't'
+                else:
+                    speciesDict[species] = 't'
+            for species in SNP.getCGenomes():
+                if species in speciesDict:
+                    speciesDict[species] += 'c'
+                else:
+                    speciesDict[species] = 'c'
+            for species in SNP.getGGenomes():
+                if species in speciesDict:
+                    speciesDict[species] += 'g'
+                else:
+                    speciesDict[species] = 'g'
+
+        for species, string in speciesDict.items():
+            speciesList.append((species, string))
+
+
+        for species, string in speciesDict.items():
+            unique = True
+            for group in self.differentiatedSpecies:
+                if string == group[1]:
+                    group[0].append(species)
+                    unique = False
+            if unique:
+                self.differentiatedSpecies.append(([species], string))
+
+       
+                    
+
+    def getDifferentiatedSpecies(self):
+        return self.differentiatedSpecies
+
     

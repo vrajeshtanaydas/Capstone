@@ -33,7 +33,9 @@ ISGData[1].printSNP()
 print("goodbye")
 sequences = SequenceFinder.main(ISGData, 25)
 
+#test output
 for sequence in sequences:
-    print(sequence.getSNPList())
+    print(sequence.getDifferentiatedSpecies())
+
 
 #EntropyCalculator.main(treeTable, dataPullerOutput)
