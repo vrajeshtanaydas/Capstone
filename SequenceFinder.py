@@ -17,7 +17,7 @@ def main(ISGData, sequenceLength):
     mutualInformationRange = sequences[-1].getavgMutualInformation() - sequences[0].getavgMutualInformation()
     mutualInformationThreshold = mutualInformationRange / 2 + sequences[0].getavgMutualInformation()
     thresholdIndex = 0
-    while sequences[thresholdIndex].getavgMutualInformation() <= mutualInformationThreshold and thresholdIndex < len(sequences) - 1:
+    while sequences[thresholdIndex].getavgMutualInformation() <= mutualInformationThreshold:
         thresholdIndex += 1
     sequences = sequences[:thresholdIndex]
     

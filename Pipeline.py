@@ -22,9 +22,11 @@ try:
 except Exception:
     raise Exception("No argument provided for phylogenetic tree")
 
+dataPullerOutput = "dataPullerOutput.txt"
+
 treeTable = TreeTable(treeFile)
 
-ISGData = ISGDataPuller.main(inputFile, treeTable)
+ISGData = ISGDataPuller.main(inputFile, treeTable, dataPullerOutput)
 print("hello")
 
 ISGData[1].printSNP()
