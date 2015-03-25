@@ -3,7 +3,7 @@ import sys
 import ISGDataPuller
 import EntropyCalculator
 import SequenceFinder
-from TreeTableMaker import TreeTable
+from TreeMaker import TreeTable
 
 # expect first argument for the input file
 try:

@@ -1,5 +1,5 @@
 import math
-import TreeTableMaker
+import TreeMaker
 
 aGenomes = 0
 tGenomes = 0
