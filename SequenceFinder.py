@@ -7,7 +7,6 @@ def main(ISGData, sequenceLength = 300, primerSize = 15):
         sequence = Sequence(ISGData, i, sequenceLength - 2*primerSize, primerSize)
         sequenceIndex = 0
         if len(sequences):
-            print(len(sequences))
             while sequence.avgMutualInformation >= sequences[sequenceIndex].avgMutualInformation:
                 sequenceIndex += 1
                 if sequenceIndex == len(sequences):
