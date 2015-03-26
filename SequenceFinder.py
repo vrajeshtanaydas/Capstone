@@ -4,7 +4,7 @@ from ISGDataPuller import SNP
 def main(ISGData, sequenceLength = 300, primerSize = 15):
     sequences = []
     for i, SNP in enumerate(ISGData):
-        sequence = Sequence(ISGData, i, sequenceLength - 2*primerSize)
+        sequence = Sequence(ISGData, i, sequenceLength - 2*primerSize, primerSize)
         sequenceIndex = 0
         if len(sequences):
             print(len(sequences))
@@ -28,7 +28,7 @@ def main(ISGData, sequenceLength = 300, primerSize = 15):
 class Sequence(object):
 
 
-    def __init__(self, ISGData, snpIndex, sequenceLength):
+    def __init__(self, ISGData, snpIndex, sequenceLength, primerSize):
         self.avgMutualInformation = 1
         self.startPosition = ISGData[snpIndex].getPos() - primerSize
         if self.startPosition < 0:
@@ -36,7 +36,7 @@ class Sequence(object):
         self.SNPList = []
         position = self.startPosition
         # adds SNPs to sequence as long as their position is within the sequenceLength
-        while position <= (self.startPosition + sequenceLength - primersize):
+        while position <= (self.startPosition + sequenceLength - primerSize):
             self.SNPList.append(ISGData[snpIndex])
             snpIndex += 1
             if snpIndex == len(ISGData):
