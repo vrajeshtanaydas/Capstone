@@ -104,20 +104,20 @@ def CalculateEntropy():
     p_c = 0
     p_g = 0
     if a_group != 0:
-        p_a = long(a_group) / groups
+        p_a = int(a_group) / groups
         p_a *= math.log10(p_a)
     if t_group != 0:
-        p_t = long(t_group) / groups
+        p_t = int(t_group) / groups
         p_t *= math.log10(p_t)
     if c_group != 0:
-        p_c = long(c_group) / groups
+        p_c = int(c_group) / groups
         p_c *= math.log10(p_c)
     if g_group != 0:
-        p_g = long(g_group) / groups
+        p_g = int(g_group) / groups
         p_g *= math.log10(p_g)
 
     entropy = -1 * (p_a + p_t + p_c + p_g)
-    print(entropy)
+    return entropy
 
 def main(treeTable, aSet, tSet, cSet, gSet):
     global aGenomes 
@@ -148,5 +148,4 @@ def main(treeTable, aSet, tSet, cSet, gSet):
     print(t_group)
     print(c_group)
     print(g_group)
-    CalculateEntropy()
-    return treeTable
+    return CalculateEntropy()

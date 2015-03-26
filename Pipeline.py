@@ -31,7 +31,7 @@ ISGData[1].printSNP()
 print("goodbye")
 sequences = SequenceFinder.main(ISGData, 25)
 
-for sequence in sequences:
-    print(sequence.getSNPList())
+#for sequence in sequences:
+    #print(sequence.getSNPList())
 
 #EntropyCalculator.main(treeTable, dataPullerOutput)
