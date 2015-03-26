@@ -63,3 +63,15 @@ shift $((OPTIND - 1))
 
 python ISGDataPuller.py $INPUT $OUTPUT
 exit 0
+
+
+
+potential arguments
+    input directory
+    output directory
+    opt sequence length default 300
+    opt primer size default 15
+    opt culling percentile
+    running isg (AUTOMATIC IF isg OUTPUT NOT DETECTED)
+    dry run mode?
+    quiet/verbose

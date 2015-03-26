@@ -1,10 +1,10 @@
 from ISGDataPuller import SNP
 
 # main function finds all sequences in ISGData of length sequenceLength and then culls those sequences based on their mutual information
-def main(ISGData, sequenceLength):
+def main(ISGData, sequenceLength = 300, primerSize = 15):
     sequences = []
     for i, SNP in enumerate(ISGData):
-        sequence = Sequence(ISGData, i, sequenceLength)
+        sequence = Sequence(ISGData, i, sequenceLength - 2*primerSize)
         sequenceIndex = 0
         if len(sequences):
             print(len(sequences))
@@ -30,11 +30,13 @@ class Sequence(object):
 
     def __init__(self, ISGData, snpIndex, sequenceLength):
         self.avgMutualInformation = 1
-        self.startPosition = ISGData[snpIndex].getPos()
+        self.startPosition = ISGData[snpIndex].getPos() - primerSize
+        if self.startPosition < 0:
+            self.startPosition = 1
         self.SNPList = []
         position = self.startPosition
         # adds SNPs to sequence as long as their position is within the sequenceLength
-        while position <= (self.startPosition + sequenceLength):
+        while position <= (self.startPosition + sequenceLength - primersize):
             self.SNPList.append(ISGData[snpIndex])
             snpIndex += 1
             if snpIndex == len(ISGData):
