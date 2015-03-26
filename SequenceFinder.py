@@ -8,17 +8,17 @@ def main(ISGData, sequenceLength = 300, primerSize = 15):
         sequenceIndex = 0
         if len(sequences):
             print(len(sequences))
-            while sequence.getavgMutualInformation() >= sequences[sequenceIndex].getavgMutualInformation():
+            while sequence.avgMutualInformation >= sequences[sequenceIndex].avgMutualInformation:
                 sequenceIndex += 1
                 if sequenceIndex == len(sequences):
                     break
         sequences.insert(sequenceIndex, sequence)
     
     #culling sequences, might need to rework 
-    mutualInformationRange = sequences[-1].getavgMutualInformation() - sequences[0].getavgMutualInformation()
-    mutualInformationThreshold = mutualInformationRange / 2 + sequences[0].getavgMutualInformation()
+    mutualInformationRange = sequences[-1].avgMutualInformation - sequences[0].avgMutualInformation
+    mutualInformationThreshold = mutualInformationRange / 2 + sequences[0].avgMutualInformation
     thresholdIndex = 0
-    while sequences[thresholdIndex].getavgMutualInformation() <= mutualInformationThreshold and thresholdIndex < len(sequences) - 1:
+    while sequences[thresholdIndex].avgMutualInformation <= mutualInformationThreshold and thresholdIndex < len(sequences) - 1:
         thresholdIndex += 1
     sequences = sequences[:thresholdIndex]
     
@@ -30,7 +30,7 @@ class Sequence(object):
 
     def __init__(self, ISGData, snpIndex, sequenceLength, primerSize):
         self.avgMutualInformation = 1
-        self.startPosition = ISGData[snpIndex].getPos() - primerSize
+        self.startPosition = ISGData[snpIndex].pos - primerSize
         if self.startPosition < 0:
             self.startPosition = 1
         self.SNPList = []
@@ -41,17 +41,9 @@ class Sequence(object):
             snpIndex += 1
             if snpIndex == len(ISGData):
                 break 
-            position = ISGData[snpIndex].getPos()
+            position = ISGData[snpIndex].pos
         #self.calcMutualInformation()
     
-    def getSNPList(self):
-        return self.SNPList
-    
-    def getStartPosition(self):
-        return self.startPosition
-    
-    def getavgMutualInformation(self):
-        return self.avgMutualInformation
     
     # compares each pair of SNPs to determine mutual information
     def calcMutualInformation(self):
@@ -60,9 +52,9 @@ class Sequence(object):
         for i, snp in enumerate(self.SNPList):
             if i < len(self.SNPList) - 1:
                 for j in range(i + 1, len(self.SNPList)):
-                    hx = snp.getEntropy()
-                    hy = self.SNPList[j].getEntropy()
-                    hxy = pairEntropyCalculator(snp, self.SNPList[j])
+                    hx = snp.entropy
+                    hy = self.SNPList[j].entropy
+                    hxy = pairEntropyCalculator(snp, self.SNPList[j]) #needs to be changed
                     sumMutualInformation += hx + hy - hxy
                     pairCount += 1
         self.avgMutualInformation = sumMutualInformation / pairCount

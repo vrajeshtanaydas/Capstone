@@ -87,27 +87,6 @@ class SNP(object):
         self.cGenomes = cGenomes
         self.gGenomes = gGenomes
 
-    def getChrom(self):
-        return self.chrom
-
-    def getPos(self):
-        return self.pos
-
-    def getEntropy(self):
-        return self.entropy
-
-    def getAGenomes(self):
-        return self.aGenomes
-
-    def getTGenomes(self):
-        return self.tGenomes
-
-    def getCGenomes(self):
-        return self.cGenomes
-
-    def getGGenomes(self):
-        return self.gGenomes
-
     def printSNP(self):
         print(self.pos, self.entropy, self.aGenomes, self.tGenomes, self.cGenomes, self.gGenomes)
 

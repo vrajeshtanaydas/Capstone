@@ -1,3 +1,4 @@
+
 # since this is part of the pipeline, we need sys module
 import sys
 import ISGDataPuller
@@ -32,6 +33,6 @@ print("goodbye")
 sequences = SequenceFinder.main(ISGData, 25)
 
 #for sequence in sequences:
-    #print(sequence.getSNPList())
+    #print(sequence.SNPList())
 
 #EntropyCalculator.main(treeTable, dataPullerOutput)
