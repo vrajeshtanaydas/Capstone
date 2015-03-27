@@ -1,4 +1,3 @@
- 
 # since this is part of the pipeline, we need sys module
 import sys
 import EntropyCalculator
@@ -89,6 +88,3 @@ class SNP(object):
 
     def printSNP(self):
         print(self.pos, self.entropy, self.aGenomes, self.tGenomes, self.cGenomes, self.gGenomes)
-
-
-
