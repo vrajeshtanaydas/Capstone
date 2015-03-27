@@ -6,6 +6,11 @@ tGenomes = 0
 cGenomes = 0
 gGenomes = 0
 
+aGenomes2 = 0
+tGenomes2 = 0
+cGenomes2 = 0
+gGenomes2 = 0
+
 def visit(currentNode):
     childNum = len(currentNode.children)
     if childNum == 0:
@@ -18,8 +23,17 @@ def visit(currentNode):
         elif currentNode.name in gGenomes:
             currentNode.data = 'G'
         else:
-            print(currentNode.name)
-        return
+            return
+
+        if currentNode.name in aGenomes2:
+            currentNode.data += 'A'
+        elif currentNode.name in tGenomes2:
+            currentNode.data += 'T'
+        elif currentNode.name in cGenomes2:
+            currentNode.data += 'C'
+        elif currentNode.name in gGenomes2:
+            currentNode.data += 'G'
+
     else:
         for i in range(childNum):
             visit(currentNode.children[i])
@@ -68,7 +82,7 @@ def CalculateValue(treeTable, currentNode):
     elif currentNode.data == 'X' and currentNode != treeTable.get_root():
         childCharacter.append(currentNode.get_parent().data)
     elif currentNode == treeTable.get_root() and currentNode.data != 'X':
-        print(currentNode.data)
+       # print(currentNode.data)
         childCharacter.append(currentNode.data)
         incrementGroups(currentNode)
 
@@ -81,13 +95,13 @@ def CalculateValue(treeTable, currentNode):
                 pass
             else:
                 childCharacter.append(currentNode.children[i].data)
-                print(currentNode.data)
+               # print(currentNode.data)
                 incrementGroups(currentNode.children[i])
 
             CalculateValue(treeTable,currentNode.children[i])
 
 def BFS(currentNode):
-    print("\t" + currentNode.data)
+    #print("\t" + currentNode.data)
     childNum = len(currentNode.children)
     for i in range(childNum):
         BFS(currentNode.children[i])
@@ -119,7 +133,7 @@ def CalculateEntropy():
     entropy = -1 * (p_a + p_t + p_c + p_g)
     return entropy
 
-def main(treeTable, aSet, tSet, cSet, gSet):
+def main(treeTable, aSet, tSet, cSet, gSet, aSet2=[], tSet2=[],cSet2=[],gSet2=[]):
     global aGenomes 
     aGenomes = aSet
     global tGenomes
@@ -128,9 +142,21 @@ def main(treeTable, aSet, tSet, cSet, gSet):
     cGenomes = cSet 
     global gGenomes 
     gGenomes = gSet
+
+    global aGenomes2
+    aGenomes2 = aSet2
+    global tGenomes2
+    tGenomes2 = tSet2
+    global cGenomes2
+    cGenomes2 = cSet2
+    global gGenomes2
+    gGenomes2 = gSet2
+
+
+
     visit(treeTable.get_root())
     #treeTable.get_root().data = 'X'
-    print("NEW TABLE")
+   # print("NEW TABLE")
     BFS(treeTable.get_root())
     global groups
     global a_group
@@ -143,9 +169,6 @@ def main(treeTable, aSet, tSet, cSet, gSet):
     c_group = 0
     g_group = 0
     CalculateValue(treeTable, treeTable.get_root())
-    print(groups)
-    print(a_group)
-    print(t_group)
-    print(c_group)
-    print(g_group)
-    return CalculateEntropy()
+
+    entropy = CalculateEntropy()
+    return entropy
