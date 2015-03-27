@@ -35,9 +35,6 @@ class TreeTable:
         print(self.children)
         fo.close()
 
-
-
-
     def get_root(self):
         return self.root
 
