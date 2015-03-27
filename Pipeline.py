@@ -1,4 +1,3 @@
-
 # since this is part of the pipeline, we need sys module
 import sys
 import ISGDataPuller
@@ -26,13 +25,10 @@ except Exception:
 treeTable = TreeTable(treeFile)
 
 ISGData = ISGDataPuller.main(inputFile, treeTable)
-print("hello")
 
-ISGData[1].printSNP()
-print("goodbye")
-sequences = SequenceFinder.main(ISGData, 25)
+sequences = SequenceFinder.main(treeTable,ISGData)
 
 #for sequence in sequences:
-    #print(sequence.SNPList())
+    #print(sequence.getSNPList())
 
 #EntropyCalculator.main(treeTable, dataPullerOutput)
