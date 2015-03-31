@@ -4,6 +4,7 @@ import ISGDataPuller
 import EntropyCalculator
 import SequenceFinder
 from TreeMaker import TreeTable
+import SequenceToFasta
 
 # expect first argument for the input file
 try:
@@ -22,11 +23,18 @@ try:
 except Exception:
     raise Exception("No argument provided for phylogenetic tree")
 
+try:
+    referenceFile = sys.argv[4]
+except Exception:
+    raise Exception("No argument provided for reference file")
+
 treeTable = TreeTable(treeFile)
 
 ISGData = ISGDataPuller.main(inputFile, treeTable)
 
 sequences = SequenceFinder.main(treeTable,ISGData)
+
+SequenceToFasta.main(sequences, referenceFile)
 
 #for sequence in sequences:
     #print(sequence.getSNPList())
