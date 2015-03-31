@@ -6,7 +6,7 @@ def main(TreeTable, ISGData, sequenceLength = 300, primerSize = 15):
 
     sequences = []
     for i, SNP in enumerate(ISGData):
-        sequence = Sequence(ISGData, i, sequenceLength - 2*primerSize, primerSize, TreeTable)
+        sequence = Sequence(ISGData, i, sequenceLength, primerSize, TreeTable)
         sequenceIndex = 0
         if len(sequences):
             #print(len(sequences))
@@ -32,6 +32,7 @@ class Sequence(object):
 
     def __init__(self, ISGData, snpIndex, sequenceLength, primerSize, TreeTable):
         self.avgMutualInformation = 1
+        self.sequenceLength = sequenceLength
         self.startPosition = ISGData[snpIndex].pos - primerSize
         if self.startPosition < 0:
             self.startPosition = 1
