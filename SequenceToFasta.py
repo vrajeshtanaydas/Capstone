@@ -1,9 +1,19 @@
+#########################################
+#
+#SequenceToFasta converts each sequence into FASTA format in a text file,
+#which can then be read by other programs. The output file is organized 
+#into most valuable sequences, based on the average mutual information 
+#value of the sequence. The reference file is the same reference file used 
+#to generate the ISG data.
+#
+#########################################
+
 from SequenceFinder import Sequence
 from ISGDataPuller import SNP
 from math import floor, ceil
 
-def main(sequences, referenceFile):
-    fo = open("sequences.fasta", "w")
+def main(sequences, referenceFile, outputFile):
+    fo = open(outputFile + ".fasta", "w")
     for sequence in sequences:
         # writes the ID and position
         fo.write(">" + sequence.SNPList[0].chrom + " Pos: " + str(sequence.startPosition) + "-" + str(sequence.startPosition + sequence.sequenceLength) + "\n")

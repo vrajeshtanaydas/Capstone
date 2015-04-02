@@ -1,6 +1,28 @@
+################################
+#
+#Treemaker converts a phylogenetic tree file into a tree data structure, 
+#where each node in the tree contains:
+#   data - used to store A T C or G, when a particular SNP is loaded      
+#           into the tree using entropy calculator
+#   name - stores the species name or branch number of the node depending  
+#           on if the node is a leaf or not
+#   children - stores the list of this nodes children
+#   parent - stores this nodes parent
+#
+#The preprocess method removes unnecessary data from the tree file, and 
+#creates a list containing "(", ")", and species names
+#
+#The branchfinder method reads through the processed list and builds the 
+#initial tree
+#
+#the parentChildFinder method is used to generate the parents and 
+#children for each branch
+#
+################################
+
 # regular expression module
 import re
-
+ 
 class TreeTableNode:
     def __init__(self, name):
         self.data = ""
@@ -21,7 +43,6 @@ class TreeTableNode:
 class TreeTable:
 
     def __init__(self, inFile):
-        #fo = open("testTree.txt", "r")
         fo = open(inFile, "r")
         fs = fo.read();
         processed = self.preprocess(fs)

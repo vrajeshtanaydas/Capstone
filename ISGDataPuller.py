@@ -1,12 +1,22 @@
-# since this is part of the pipeline, we need sys module
-import sys
+####################################################
+#
+#ISGDatapuller opens an ISG data file and converts the information
+#into a list of SNPs. Each SNP contains:
+#   chrom - the reference id for the reference genome
+#   pos - the position within the genome that the SNP is at
+#   entropy - the entropy value of the SNP, used to calculate mutual information
+#   aGenomes - a list of all genomes that have the value A in the SNP
+#   tGenomes - a list of all genomes that have the value Tin the SNP
+#   cGenomes - a list of all genomes that have the value C in the SNP
+#   gGenomes - a list of all genomes that have the value G in the SNP
+#
+#The entropy value for each SNP is calculated when its created. 
+#
+####################################################
+
 import EntropyCalculator
 
 def main(inputFile, treeTable):
-
-    # TODO -- need to handle exceptions better:
-    #   file I/O?
-    #   wrong file type input?
 
     fo = open(inputFile, "r")
 
