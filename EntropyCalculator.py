@@ -1,3 +1,23 @@
+#########################################################
+#
+#EntropyCalculator calculates the entropy value for a SNP or pair of SNPs
+#by using the phylogenetic tree to calculate the probabilities of each value
+#(A, T, C, G, AA, AT, ect.), using the methods demonstrated in:
+#http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3049237/ as a reference.
+#
+#The probability of a given value is the number of time it occurs as a separate 
+#group in the tree, divided by the total number of separate groups
+#
+#The entropy value is then:
+#
+#   sum( probability(value) * log(probability(value)) )   
+#
+#to use the entropy calculator, pass in a tree and the A, T , C, and G genome 
+#sets from a SNP, (for two SNPs, pass in the second SNP's A, T, C, and G 
+#groups as well)
+#
+#########################################################
+
 import math
 import TreeMaker
 
