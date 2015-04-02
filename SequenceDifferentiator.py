@@ -1,76 +1,85 @@
-def main():
-    print("tryopen")
-    input_file = "./TestISG.txt"
-    fopen = open(input_file, "r")
-    print("opned")
-    sequence_groups = []
-    sequence_length = 300
-    
-    # skip genome number
-    fopen.seek(12)
-    num_genomes = int(fopen.readline().strip())
-    num_genomes += 1
+import os
 
-    # read header line with species names
-    species_names = fopen.readline().strip().split('\t')
-    name_counter = 0
-    for name in species_names:
-        if name_counter > 1 and name_counter < (num_genomes + 2):
-            sequence_groups.append(name)
-        name_counter += 1
+def main(sequences, output_file):
+    outfile = open(output_file, "w")
+    # get the genome names
+    species = sequences[0].SNPList[0].aGenomes
+    species += sequences[0].SNPList[0].tGenomes
+    species += sequences[0].SNPList[0].cGenomes
+    species += sequences[0].SNPList[0].gGenomes
 
-    # get the sequence window data
-    pos_counter = 0
-    pos_start = None
+    sequence_length = len(sequences)
 
-    # while restriction
-    while True:
-        group_data = []
-        break_while = False
-        print("BLSJDLBJ")
-        pos = fopen.readline().strip().split('\t')
-        pos_start = int(pos[1])
-        pos_end = pos_start + sequence_length
-    
-        # get SNP data (each line)
-        for line in fopen.readlines():
+    # create a dictionary with keys as species names
+    genome_names = []
+    for i in range(len(species)):
+        genome_names.append(species[i])
 
-            species_data = line.strip().split('\t')
-        
-            if int(species_data[1]) > pos_end or int(species_data[1]) < pos_start:
-                break_while = True
-                break
+    groups = dict.fromkeys(genome_names, "")
 
-            group_data.append(species_data[1])
-            group_data.append("")
-            for snp_counter in range(2, num_genomes+2):
-                group_data.append(species_data[snp_counter])
+    # create vars for hodling snp information
+    a_groups = c_groups = t_groups = g_groups = []
 
-            pos_counter += 1
+    # iterate through each sequence region
+    for sequence in sequences:    
+        # get the snp information in the current region for each species
+        for i in range(len(sequence.SNPList)):
+            a_groups = sequence.SNPList[i].aGenomes
+            c_groups = sequence.SNPList[i].cGenomes
+            t_groups = sequence.SNPList[i].tGenomes
+            g_groups = sequence.SNPList[i].gGenomes
+            for a in a_groups:
+                if i == 0:
+                    groups[a] = 'A'
+                else:
+                    groups[a] += 'A'
+            for c in c_groups:
+                if i == 0:
+                    groups[c] = 'C'
+                else:
+                    groups[c] += 'C'
+            for g in g_groups:
+                if i == 0:
+                    groups[g] = 'G'
+                else:
+                    groups[g] += 'G'
+            for t in t_groups:
+                if i == 0:
+                    groups[t] = 'T'
+                else:
+                    groups[t] += 'T'
+        # calculate the groupings of the species according to snps
+        diffs = [[""]]
+        appends = False                   
+        # iterate through each species name
+        for name in genome_names:
+            # get the snp information from the groups dictionary
+            snps = groups[name]
+            for i in range(len(diffs)):
+                # add the snp and species name information to groupings
+                if snps == diffs[i][0]:
+                    diffs[i].append(name)
+                    appends = True
+            # get rid of empty element in groupings 
+            if appends == False:    
+                if diffs[0][0] == "":
+                   diffs[0][0] = snps
+                   diffs[0].append(name)
+                else:
+                    diffs.append([snps, name])
 
-        if break_while is False:
-            print("Break")
-            break
-
-        # do calculations
-        matched_genomes = []
-        for i in range(0, len(group_data)-1):
-            i_matches = []
-            if group_data[i] in matched_genomes:
-                continue
-            else:
-                matched_genomes.append(group_data[i])
-                i_matches.append(group_data[i])
-
-            for j in range(i+1, len(group_data)):
-                if group_data[i] == group_data[j]:
-                    matched_genomes.append(group_data[j])
-                    i_matches.append(group_data[j])
-
-        print("BLHSDFI") 
-        out_file = open("./differentiator_output.txt", "w+")
-        for match in matched_genomes:
-            out_file.write(match + "\n")
+        # output information to file
+        mutual_info = str(sequence.avgMutualInformation)
+        start_pos = str(sequence.startPosition)
+        end_pos = str(sequence.startPosition + sequence.sequenceLength)
+        outfile.write("sequence region: " + start_pos + "-" + end_pos)
+        outfile.write("; mutual information: " + mutual_info + '\n')
+        for d in diffs:
+            outfile.write("[ ")
+            for i in d:
+                outfile.write(i + " ") 
+            outfile.write("]\n")
+    outfile.close()
 
 
-main()
+
