@@ -12,8 +12,8 @@ from SequenceFinder import Sequence
 from ISGDataPuller import SNP
 from math import floor, ceil
 
-def main(sequences, referenceFile):
-    fo = open("sequences.fasta", "w")
+def main(sequences, referenceFile, outputFile):
+    fo = open(outputFile + ".fasta", "w")
     for sequence in sequences:
         # writes the ID and position
         fo.write(">" + sequence.SNPList[0].chrom + " Pos: " + str(sequence.startPosition) + "-" + str(sequence.startPosition + sequence.sequenceLength) + "\n")
