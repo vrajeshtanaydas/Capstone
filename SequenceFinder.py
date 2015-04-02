@@ -3,7 +3,8 @@
 #SequenceFinder finds all possible sequences of a given length (default 300) that contain SNPs,
 #calculates the average mutual information value for all the SNPs in each sequence,
 #sorts the sequences from lowest to highest avg mutual information value, and then 
-#culls the sequences based on that value so that only the %50th percentile is kept.
+#culls the sequences based on that value so that only the lowest 50th percentile is kept.
+#(a lower mutual information value implies there is more unique information in each SNP)
 #
 #The sequences assume there's a primer at each end (default 15), so sequences only 
 #look for SNPs within an area equal to the sequence length - 2 * primer size

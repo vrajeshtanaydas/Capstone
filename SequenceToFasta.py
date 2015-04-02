@@ -1,3 +1,13 @@
+#########################################
+#
+#SequenceToFasta converts each sequence into FASTA format in a text file,
+#which can then be read by other programs. The output file is organized 
+#into most valuable sequences, based on the average mutual information 
+#value of the sequence. The reference file is the same reference file used 
+#to generate the ISG data.
+#
+#########################################
+
 from SequenceFinder import Sequence
 from ISGDataPuller import SNP
 from math import floor, ceil
