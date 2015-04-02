@@ -9,7 +9,7 @@
 #   children - stores the list of this nodes children
 #   parent - stores this nodes parent
 #
-#The preprocess method removes unecessary data from the tree file, and 
+#The preprocess method removes unnecessary data from the tree file, and 
 #creates a list containing "(", ")", and species names
 #
 #The branchfinder method reads through the processed list and builds the 

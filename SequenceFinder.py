@@ -1,3 +1,23 @@
+######################################
+#
+#SequenceFinder finds all possible sequences of a given length (default 300) that contain SNPs,
+#calculates the average mutual information value for all the SNPs in each sequence,
+#sorts the sequences from lowest to highest avg mutual information value, and then 
+#culls the sequences based on that value so that only the %50th percentile is kept.
+#
+#The sequences assume there's a primer at each end (default 15), so sequences only 
+#look for SNPs within an area equal to the sequence length - 2 * primer size
+#
+#Data stored within each sequence is:
+#   startPosition - the location of the first nucleotide in the sequence
+#   sequenceLength - the total length of the sequence
+#   avgMutualInformation - the mean mutual information, when comparing each SNP in
+#           the sequence to every other SNP (sequences with 1 SNP are automatically 
+#           given a value of 1)
+#   SNPList - a list of SNP objects for the SNPs that fall within the sequence
+#
+######################################
+
 from ISGDataPuller import SNP
 import EntropyCalculator
 
