@@ -2,6 +2,7 @@
 #
 #ISGDatapuller opens an ISG data file and converts the information
 #into a list of SNPs. Each SNP contains:
+#   chrom - the reference id for the reference genome
 #   pos - the position within the genome that the SNP is at
 #   entropy - the entropy value of the SNP, used to calculate mutual information
 #   aGenomes - a list of all genomes that have the value A in the SNP
