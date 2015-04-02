@@ -1,12 +1,6 @@
-# since this is part of the pipeline, we need sys module
-import sys
 import EntropyCalculator
 
 def main(inputFile, treeTable):
-
-    # TODO -- need to handle exceptions better:
-    #   file I/O?
-    #   wrong file type input?
 
     fo = open(inputFile, "r")
 

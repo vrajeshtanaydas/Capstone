@@ -21,7 +21,6 @@ class TreeTableNode:
 class TreeTable:
 
     def __init__(self, inFile):
-        #fo = open("testTree.txt", "r")
         fo = open(inFile, "r")
         fs = fo.read();
         processed = self.preprocess(fs)

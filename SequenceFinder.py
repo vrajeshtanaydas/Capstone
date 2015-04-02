@@ -9,7 +9,6 @@ def main(TreeTable, ISGData, sequenceLength = 300, primerSize = 15):
         sequence = Sequence(ISGData, i, sequenceLength, primerSize, TreeTable)
         sequenceIndex = 0
         if len(sequences):
-            #print(len(sequences))
             while sequence.avgMutualInformation >= sequences[sequenceIndex].avgMutualInformation:
                 sequenceIndex += 1
                 if sequenceIndex == len(sequences):
