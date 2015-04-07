@@ -21,6 +21,7 @@ import sys
 import ISGDataPuller
 import EntropyCalculator
 import SequenceFinder
+import SequenceDifferentiator
 from TreeMaker import TreeTable
 import SequenceToFasta
 
@@ -51,6 +52,8 @@ treeTable = TreeTable(treeFile)
 ISGData = ISGDataPuller.main(inputFile, treeTable)
 
 sequences = SequenceFinder.main(treeTable,ISGData)
+
+SequenceDifferentiator.main(sequences, outputFile)
 
 SequenceToFasta.main(sequences, referenceFile, outputFile)
 
