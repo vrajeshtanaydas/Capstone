@@ -75,6 +75,22 @@ def incrementGroups(currentNode):
     global c_group
     global t_group
     global g_group
+    global aa_group
+    global at_group
+    global ac_group
+    global ag_group
+    global ta_group
+    global tt_group
+    global tc_group
+    global tg_group
+    global ca_group
+    global ct_group
+    global cc_group
+    global cg_group
+    global ga_group
+    global gt_group
+    global gc_group
+    global gg_group
     groups+=1
     if currentNode.data == 'A':
         a_group += 1
@@ -84,6 +100,39 @@ def incrementGroups(currentNode):
         c_group += 1
     elif currentNode.data == 'G':
         g_group += 1
+    elif currentNode.data == 'AA':
+        aa_group += 1
+    elif currentNode.data == 'AT':
+        at_group += 1
+    elif currentNode.data == 'AC':
+        ac_group += 1
+    elif currentNode.data == 'AG':
+        ag_group += 1
+    elif currentNode.data == 'TA':
+        ta_group += 1
+    elif currentNode.data == 'TT':
+        tt_group += 1
+    elif currentNode.data == 'TC':
+        tc_group += 1
+    elif currentNode.data == 'TG':
+        tg_group += 1
+    elif currentNode.data == 'CA':
+        ca_group += 1
+    elif currentNode.data == 'CT':
+        ct_group += 1
+    elif currentNode.data == 'CC':
+        cc_group += 1
+    elif currentNode.data == 'CG':
+        cg_group += 1
+    elif currentNode.data == 'GA':
+        ga_group += 1
+    elif currentNode.data == 'GT':
+        gt_group += 1
+    elif currentNode.data == 'GC':
+        gc_group += 1
+    elif currentNode.data == 'GG':
+        gg_group += 1
+
 
 #Calculate Value determines the entropy value
 def CalculateValue(treeTable, currentNode):
@@ -127,10 +176,42 @@ def CalculateEntropy():
     global t_group
     global c_group
     global g_group
+    global aa_group
+    global at_group
+    global ac_group
+    global ag_group
+    global ta_group
+    global tt_group
+    global tc_group
+    global tg_group
+    global ca_group
+    global ct_group
+    global cc_group
+    global cg_group
+    global ga_group
+    global gt_group
+    global gc_group
+    global gg_group
     p_a = 0
     p_t = 0
     p_c = 0
     p_g = 0
+    p_aa = 0
+    p_at = 0
+    p_ac = 0
+    p_ag = 0
+    p_ta = 0
+    p_tt = 0
+    p_tc = 0
+    p_tg = 0
+    p_ca = 0
+    p_ct = 0
+    p_cc = 0
+    p_cg = 0
+    p_ga = 0
+    p_gt = 0
+    p_gc = 0
+    p_gg = 0
     if a_group != 0:
         p_a = int(a_group) / groups
         p_a *= math.log10(p_a)
@@ -143,8 +224,60 @@ def CalculateEntropy():
     if g_group != 0:
         p_g = int(g_group) / groups
         p_g *= math.log10(p_g)
+    if aa_group != 0:
+        p_aa = int(aa_group) / groups
+        p_aa *= math.log10(p_aa)
+    if at_group != 0:
+        p_at = int(at_group) / groups
+        p_at *= math.log10(p_at)
+    if ac_group != 0:
+        p_ac = int(ac_group) / groups
+        p_ac *= math.log10(p_ac)
+    if ag_group != 0:
+        p_ag = int(ag_group) / groups
+        p_ag *= math.log10(p_ag)
+    if ta_group != 0:
+        p_ta = int(ta_group) / groups
+        p_ta *= math.log10(p_ta)
+    if tt_group != 0:
+        p_tt = int(tt_group) / groups
+        p_tt *= math.log10(p_tt)
+    if tc_group != 0:
+        p_tc = int(tc_group) / groups
+        p_tc *= math.log10(p_tc)
+    if tg_group != 0:
+        p_tg = int(tg_group) / groups
+        p_tg *= math.log10(p_tg)
+    if ca_group != 0:
+        p_ca = int(ca_group) / groups
+        p_ca *= math.log10(p_ca)
+    if ct_group != 0:
+        p_ct = int(ct_group) / groups
+        p_ct *= math.log10(p_ct)
+    if cc_group != 0:
+        p_cc = int(cc_group) / groups
+        p_cc *= math.log10(p_cc)
+    if cg_group != 0:
+        p_cg = int(cg_group) / groups
+        p_cg *= math.log10(p_cg)
+    if ga_group != 0:
+        p_ga = int(ga_group) / groups
+        p_ga *= math.log10(p_ga)
+    if gt_group != 0:
+        p_gt = int(gt_group) / groups
+        p_gt *= math.log10(p_gt)
+    if gc_group != 0:
+        p_gc = int(gc_group) / groups
+        p_gc *= math.log10(p_gc)
+    if gg_group != 0:
+        p_gg = int(gg_group) / groups
+        p_gg *= math.log10(p_gg)
 
-    entropy = -1 * (p_a + p_t + p_c + p_g)
+    entropy = -1 * (p_a + p_t + p_c + p_g +
+            p_aa + p_at + p_ac + p_ag +
+            p_ta + p_tt + p_tc + p_tg +
+            p_ca + p_ct + p_cc + p_cg +
+            p_ga + p_gt + p_gc + p_gg)
     return entropy
 
 
@@ -177,11 +310,44 @@ def main(treeTable, aSet, tSet, cSet, gSet, aSet2=[], tSet2=[],cSet2=[],gSet2=[]
     global t_group
     global c_group
     global g_group
+    global aa_group
+    global at_group
+    global ac_group
+    global ag_group
+    global ta_group
+    global tt_group
+    global tc_group
+    global tg_group
+    global ca_group
+    global ct_group
+    global cc_group
+    global cg_group
+    global ga_group
+    global gt_group
+    global gc_group
+    global gg_group
     groups = 0
     a_group = 0
     t_group = 0
     c_group = 0
     g_group = 0
+    aa_group = 0
+    at_group = 0
+    ac_group = 0
+    ag_group = 0
+    ta_group = 0
+    tt_group = 0
+    tc_group = 0
+    tg_group = 0
+    ca_group = 0
+    ct_group = 0
+    cc_group = 0
+    cg_group = 0
+    ga_group = 0
+    gt_group = 0
+    gc_group = 0
+    gg_group = 0
+
     CalculateValue(treeTable, treeTable.get_root())
 
     entropy = CalculateEntropy()
