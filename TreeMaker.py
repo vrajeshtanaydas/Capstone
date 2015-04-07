@@ -36,9 +36,6 @@ class TreeTableNode:
     def add_parent(self, obj):
         self.parent.append(obj)
 
-    def get_parent(self):
-        return self.parent[0]
-
 
 class TreeTable:
 
@@ -114,7 +111,7 @@ class TreeTable:
                     else:
                         branches[bpos].append(letter)
                         if current_node != self.root:
-                            current_node = current_node.get_parent()
+                            current_node = current_node.parent[0]
                 bpos += 1
             elif char == ',':
                 continue

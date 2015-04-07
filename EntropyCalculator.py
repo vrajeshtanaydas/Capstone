@@ -100,7 +100,7 @@ def CalculateValue(treeTable, currentNode):
     if childNum == 0:
         pass
     elif currentNode.data == 'X' and currentNode != treeTable.get_root():
-        childCharacter.append(currentNode.get_parent().data)
+        childCharacter.append(currentNode.parent[0].data)
     elif currentNode == treeTable.get_root() and currentNode.data != 'X':
        # print(currentNode.data)
         childCharacter.append(currentNode.data)
@@ -119,12 +119,6 @@ def CalculateValue(treeTable, currentNode):
                 incrementGroups(currentNode.children[i])
 
             CalculateValue(treeTable,currentNode.children[i])
-
-def BFS(currentNode):
-    #print("\t" + currentNode.data)
-    childNum = len(currentNode.children)
-    for i in range(childNum):
-        BFS(currentNode.children[i])
 
 
 def CalculateEntropy():
@@ -153,6 +147,7 @@ def CalculateEntropy():
     entropy = -1 * (p_a + p_t + p_c + p_g)
     return entropy
 
+
 def main(treeTable, aSet, tSet, cSet, gSet, aSet2=[], tSet2=[],cSet2=[],gSet2=[]):
     global aGenomes 
     aGenomes = aSet
@@ -177,7 +172,6 @@ def main(treeTable, aSet, tSet, cSet, gSet, aSet2=[], tSet2=[],cSet2=[],gSet2=[]
     visit(treeTable.get_root())
     #treeTable.get_root().data = 'X'
    # print("NEW TABLE")
-    BFS(treeTable.get_root())
     global groups
     global a_group
     global t_group
