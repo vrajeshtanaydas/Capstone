@@ -144,17 +144,13 @@ def CalculateValue(treeTable, currentNode):
 
     childCharacter = []
     childNum = len(currentNode.children)
-    #print("\n\tCurrent: " + str(currentNode.data) + "\t NumChildren: " + \
-    #        str(childNum))
     if childNum == 0:
         pass
     elif currentNode.data == 'X' and currentNode != treeTable.get_root():
         childCharacter.append(currentNode.parent[0].data)
     elif currentNode == treeTable.get_root() and currentNode.data != 'X':
-       # print(currentNode.data)
         childCharacter.append(currentNode.data)
         incrementGroups(currentNode)
-
     else:
         childCharacter.append(currentNode.data)
     if childNum != 0:
@@ -164,9 +160,7 @@ def CalculateValue(treeTable, currentNode):
                 pass
             else:
                 childCharacter.append(currentNode.children[i].data)
-               # print(currentNode.data)
                 incrementGroups(currentNode.children[i])
-
             CalculateValue(treeTable,currentNode.children[i])
 
 
@@ -303,8 +297,6 @@ def main(treeTable, aSet, tSet, cSet, gSet, aSet2=[], tSet2=[],cSet2=[],gSet2=[]
 
 
     visit(treeTable.get_root())
-    #treeTable.get_root().data = 'X'
-   # print("NEW TABLE")
     global groups
     global a_group
     global t_group

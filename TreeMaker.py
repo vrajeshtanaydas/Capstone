@@ -45,12 +45,6 @@ class TreeTable:
         processed = self.preprocess(fs)
         self.branches = self.branchFinder(processed)
         self.parents, self.children = self.parentChildFinder(self.branches)
-        self.root
-        # print for debugging
-        print(processed)
-        print(self.branches)
-        print(self.parents)
-        print(self.children)
         fo.close()
 
     def get_root(self):
@@ -120,8 +114,6 @@ class TreeTable:
                 n = TreeTableNode(char)
                 current_node.add_child(n)
                 bpos += 1
-        
-        #print(root.children[1].children[0].name) # DEBUG
         return branches
 
     def parentChildFinder(self, branches):
