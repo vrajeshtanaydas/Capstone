@@ -37,12 +37,7 @@ def main(TreeTable, ISGData, sequenceLength = 300, primerSize = 15):
         sequences.insert(sequenceIndex, sequence)
     
     #culling sequences, might need to rework 
-    mutualInformationRange = sequences[-1].avgMutualInformation - sequences[0].avgMutualInformation
-    mutualInformationThreshold = mutualInformationRange / 2 + sequences[0].avgMutualInformation
-    thresholdIndex = 0
-    while sequences[thresholdIndex].avgMutualInformation <= mutualInformationThreshold and thresholdIndex < len(sequences) - 1:
-        thresholdIndex += 1
-    sequences = sequences[:thresholdIndex]
+    sequences = cullSequences(sequences)
 
     return sequences
 
@@ -88,3 +83,14 @@ class Sequence(object):
 
         self.avgMutualInformation = sumMutualInformation / pairCount
         print(self.avgMutualInformation)
+
+def cullSequences(sequences):
+    #calculates the best 50th percentile and discards the rest
+    mutualInformationRange = sequences[-1].avgMutualInformation - sequences[0].avgMutualInformation
+    mutualInformationThreshold = mutualInformationRange / 2 + sequences[0].avgMutualInformation
+    thresholdIndex = 0
+    while sequences[thresholdIndex].avgMutualInformation <= mutualInformationThreshold and thresholdIndex < len(sequences) - 1:
+        thresholdIndex += 1
+    sequences = sequences[:thresholdIndex]
+
+    return sequences
