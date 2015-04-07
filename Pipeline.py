@@ -56,8 +56,3 @@ sequences = SequenceFinder.main(treeTable,ISGData)
 SequenceDifferentiator.main(sequences, outputFile)
 
 SequenceToFasta.main(sequences, referenceFile, outputFile)
-
-#for sequence in sequences:
-    #print(sequence.getSNPList())
-
-#EntropyCalculator.main(treeTable, dataPullerOutput)

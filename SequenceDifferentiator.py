@@ -17,7 +17,7 @@ def main(sequences, output_file):
 
     groups = dict.fromkeys(genome_names, "")
 
-    # create vars for hodling snp information
+    # create vars for holding snp information
     a_groups = c_groups = t_groups = g_groups = []
 
     # iterate through each sequence region
@@ -80,6 +80,3 @@ def main(sequences, output_file):
                 outfile.write(i + " ") 
             outfile.write("]\n")
     outfile.close()
-
-
-
