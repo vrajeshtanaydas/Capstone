@@ -23,6 +23,10 @@ def main(sequences, output_file):
     # iterate through each sequence region
     for sequence in sequences:    
         # get the snp information in the current region for each species
+        #start_pos = str(sequence.startPosition)
+        #end_pos = str(sequence.startPosition + sequence.sequenceLength)
+        #print(start_pos + "   " + end_pos)
+        #print(len(sequence.SNPList))
         for i in range(len(sequence.SNPList)):
             a_groups = sequence.SNPList[i].aGenomes
             c_groups = sequence.SNPList[i].cGenomes

@@ -35,6 +35,7 @@ def main(TreeTable, ISGData, sequenceLength = 300, primerSize = 15):
                 if sequenceIndex == len(sequences):
                     break
         sequences.insert(sequenceIndex, sequence)
+        # DEBUG sequences.append(sequence)
     
     #culling sequences, might need to rework 
     sequences = cullSequences(sequences)
@@ -53,6 +54,14 @@ class Sequence(object):
             self.startPosition = 1
         self.SNPList = []
         position = self.startPosition
+        
+        # handles when SNPs are still in primer zone
+        if ISGData[0].pos >= self.startPosition:
+            snpIndex = 0
+        else:
+            while snpIndex > 0 and ISGData[snpIndex-1].pos >= self.startPosition:
+                snpIndex -= 1
+
         # adds SNPs to sequence as long as their position is within the sequenceLength
         while position <= (self.startPosition + sequenceLength - primerSize):
 
@@ -63,8 +72,8 @@ class Sequence(object):
             position = ISGData[snpIndex].pos
         if len(self.SNPList) > 1:
             self.calcMutualInformation(TreeTable)
-        else:
-            print(len(self.SNPList))
+        #else:
+            #print(len(self.SNPList))
 
     
     # compares each pair of SNPs to determine mutual information
@@ -82,7 +91,7 @@ class Sequence(object):
                     pairCount += 1
 
         self.avgMutualInformation = sumMutualInformation / pairCount
-        print(self.avgMutualInformation)
+        #DEBUG print(self.avgMutualInformation)
 
 def cullSequences(sequences):
     #calculates the best 50th percentile and discards the rest
