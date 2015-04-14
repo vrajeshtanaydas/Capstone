@@ -30,6 +30,11 @@ try:
     inputFile = sys.argv[1]
 except Exception:
     raise Exception("No argument provided as input")
+try:
+    f = open(inputFile)
+except Exception:
+    raise Exception("Input file does not exist")
+f.close()
 
 # expect second argument for the output file
 try:
@@ -41,11 +46,21 @@ try:
     treeFile = sys.argv[3]
 except Exception:
     raise Exception("No argument provided for phylogenetic tree")
+try:
+    f = open(treeFile)
+except Exception:
+    raise Exception("Tree file does not exist")
+f.close()
 
 try:
     referenceFile = sys.argv[4]
 except Exception:
     raise Exception("No argument provided for reference file")
+try:
+    f = open(referenceFile)
+except Exception:
+    raise Exception("Reference file does not exist")
+f.close()
 
 treeTable = TreeTable(treeFile)
 
