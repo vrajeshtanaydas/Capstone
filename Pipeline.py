@@ -62,12 +62,18 @@ except Exception:
     raise Exception("Reference file does not exist")
 f.close()
 
+print("Constructing tree data from " + treeFile + " ...")
 treeTable = TreeTable(treeFile)
 
+print("Extracting ISG matrix data from " + inputFile + " ...")
 ISGData = ISGDataPuller.main(inputFile, treeTable)
 
+print("Gathering 300 base-pair regions and calculating mutual information values ...")
 sequences = SequenceFinder.main(treeTable,ISGData)
 
+print("Differentiating the species for each region and writing to " + outputFile
+        + " ...")
 SequenceDifferentiator.main(sequences, outputFile)
 
+print("Writing each region as fasta format to " + outputFile + ".fasta ...")
 SequenceToFasta.main(sequences, referenceFile, outputFile)
