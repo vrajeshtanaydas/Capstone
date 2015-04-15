@@ -59,6 +59,8 @@ def main(sequences, output_file):
         for name in genome_names:
             # get the snp information from the groups dictionary
             snps = groups[name]
+            # reset the appends boolean for each species/genome name
+            appends = False
             for i in range(len(diffs)):
                 # add the snp and species name information to groupings
                 if snps == diffs[i][0]:
