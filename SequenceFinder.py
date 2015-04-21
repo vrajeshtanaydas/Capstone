@@ -37,8 +37,8 @@ def main(TreeTable, ISGData, sequenceLength = 300, primerSize = 15):
         sequences.insert(sequenceIndex, sequence)
         # DEBUG sequences.append(sequence)
     
-    #culling sequences, might need to rework 
-    sequences = cullSequences(sequences)
+    # culling sequences, might need to rework 
+    # sequences = cullSequences(sequences)
 
     return sequences
 
