@@ -22,7 +22,13 @@
 
 # regular expression module
 import re
- 
+
+
+# exception to demonstrate poorly formed Newick file
+class NewickFileError(Exception):
+    pass
+
+
 class TreeTableNode:
     def __init__(self, name):
         self.data = ""
@@ -40,12 +46,12 @@ class TreeTableNode:
 class TreeTable:
 
     def __init__(self, inFile):
-        fo = open(inFile, "r")
-        fs = fo.read();
-        processed = self.preprocess(fs)
-        self.branches = self.branchFinder(processed)
+        self.fo = open(inFile, "r")
+        fs = self.fo.read();
+        self.processed = self.preprocess(fs)
+        self.branches = self.branchFinder(self.processed)
         self.parents, self.children = self.parentChildFinder(self.branches)
-        fo.close()
+        self.fo.close()
 
     def get_root(self):
         return self.root
@@ -70,11 +76,19 @@ class TreeTable:
                 continue
             else:
                 name = ''
-                while fileString[pos] not in ['(', ')', ',',';']:
-                    name += fileString[pos]
-                    pos += 1
-                if name != '':
-                    stringList.append(name)
+
+                # pos will keep incrementing if an invalid character is present
+                try:
+                    while fileString[pos] not in ['(', ')', ',',';']:
+                        name += fileString[pos]
+                        pos += 1
+                    if name != '':
+                        stringList.append(name)
+                except IndexError:
+                    self.fo.close()
+                    raise NewickFileError("Third argument must be a properly" +
+                                          " formatted Newick file")
+
         return stringList
 
     def branchFinder(self, processedString):
