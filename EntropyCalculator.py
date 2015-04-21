@@ -141,6 +141,22 @@ def CalculateValue(treeTable, currentNode):
     global c_group
     global t_group
     global g_group
+    global aa_group
+    global at_group
+    global ac_group
+    global ag_group
+    global ta_group
+    global tt_group
+    global tc_group
+    global tg_group
+    global ca_group
+    global ct_group
+    global cc_group
+    global cg_group
+    global ga_group
+    global gt_group
+    global gc_group
+    global gg_group
 
     childCharacter = []
     childNum = len(currentNode.children)
