@@ -22,10 +22,11 @@
 
 # regular expression module
 import re
+import queue
 
 
-# exception to demonstrate poorly formed Newick file
-class NewickFileError(Exception):
+# exception to demonstrate badly formatted tree (newick) file
+class TreeFileError(Exception):
     pass
 
 
@@ -53,10 +54,17 @@ class TreeTable:
     def __init__(self, inFile):
         self.fo = open(inFile, "r")
         fs = self.fo.read();
-        self.processed = self.preprocess(fs)
-        self.branches = self.branchFinder(self.processed)
-        self.parents, self.children = self.parentChildFinder(self.branches)
-        self.fo.close()
+
+        # close the file when propogating the TreeFileError
+        try:
+            self.processed = self.preprocess(fs)
+            self.branches = self.branchFinder(self.processed)
+            self.parents, self.children = self.parentChildFinder(self.branches)
+            self.fo.close()
+        except TreeFileError as err:
+            self.fo.close()
+            raise(err)
+
 
     def get_root(self):
         return self.root
@@ -64,76 +72,131 @@ class TreeTable:
     def get_tree(self):
         return parents, children
 
-    # this removes branch length values
-    # returns a Newick formatted string
+
+    # preprocess -- removes branch length/distance values
+    # -- removes branch distance values as well as commas 
+    #    and any newlines
+    # -- input: contents of a Newick file as a string
+    # -- return: a list of parenthesis and genome names
     def preprocess(self, fileString):
+        # strip any newlines from the file string
         fileString = fileString.replace("\n","")
+        # remove any distances
         sre = re.compile(':0\.\d+')
         fileString = sre.sub("",fileString)
-        stringList = []
+        # store parenthesis and genome names 
+        processed_string = []
+        # keeps track of current position in the processed file string
         pos = 0
+
+        # iterate through each character in the processed file string
         for char in fileString:
+
+            # we keep the parenthesis for determining tree structure
             if char in ['(', ')']:
-                stringList.append(char)
+                processed_string.append(char)
                 pos += 1
+
+            # don't include commas
             elif char == ',':
                 pos += 1
                 continue
+
+            # store a genome name as a string
             else:
                 name = ''
-
-                # pos will keep incrementing if an invalid character is present
                 try:
+                    # continue adding chars to genome name if char isn't a
+                    # delineator
                     while fileString[pos] not in ['(', ')', ',',';']:
                         name += fileString[pos]
                         pos += 1
+                    # when a delineator is reached, append the genome name
                     if name != '':
-                        stringList.append(name)
+                        processed_string.append(name)
+                # occurs when an invalid character is last char of file string
                 except IndexError:
                     self.fo.close()
-                    raise NewickFileError("Third argument must be a properly" +
-                                          " formatted Newick file")
+                    raise TreeFileError("Third argument must be a properly" +
+                                        " formatted Newick file" +
+                                        "\n\t -- check last character in file")
 
-        return stringList
+        return processed_string
 
+
+    # The branchfinder method reads through the processed list and builds the 
+    # initial tree structure
     def branchFinder(self, processedString):
         branches = []
+        # a list of open parens -- used for determining new tree levels
         opens = []
+        # the current branch position
         bpos = 0
-        
-        node_counter = 1
+        # used for naming nodes that aren't leaf nodes
+        node_identifier = 1
+        # initialize the root node with name = 0
         self.root = TreeTableNode(0)
+        # keeps track of which node currently at in tree structure 
         current_node = self.root
 
-        for i, char in enumerate(processedString):
+        # expected tokens are a comma, parens, or genome name
+        for i, token in enumerate(processedString):
+
+            # skip the first and last parenthesis
+            # -- these don't determine the tree structure
             if i == 0 or i == len(processedString) - 1:
-                continue
-            if char == '(':
+                
+                # newick file must begin with open parens
+                if i == 0 and token != '(':
+                    raise TreeFileError("\nTree file is not properly formatted" +
+                                        "\n\t-- must start with a \'(\'" +
+                                        " character.\n")
+                # newick file must end with close parens
+                elif i == len(processedString) - 1 and token != ')':
+                    raise TreeFileError("\nTree file is not properly formatted" +
+                                        "\n\t-- must end with a \')\'" +
+                                        " character\n")
+                else:
+                    continue
+
+            # descending a tree level
+            if token == '(':
                 opens.append(i)
-                node = TreeTableNode(node_counter)
+                # add a child node to the current node
+                node = TreeTableNode(node_identifier)
                 node.add_parent(current_node)
                 current_node.add_child(node)
+                # set the current node to the added child node
+                # i.e. descend
                 current_node = node
-                node_counter += 1
+                node_identifier += 1
                 
-            elif char == ')':
+            # ascending a tree level(s)
+            elif token == ')':
+                # 
                 branches.append([])
-                for letter in processedString[opens.pop()+1:i]:
-                    if letter in [',', '(', ')']:
-                        continue
-                    else:
-                        branches[bpos].append(letter)
-                        if current_node != self.root:
-                            current_node = current_node.parent[0]
+                try:
+                    for token2 in processedString[opens.pop()+1:i]:
+                        if token2 in [',', '(', ')']:
+                            continue
+                        else:
+                            branches[bpos].append(token2)
+                            if current_node != self.root:
+                                current_node = current_node.parent[0]
+                except IndexError:
+                    raise TreeFileError("\nTree file is not properly formatted" +
+                            "\n\t-- ensure number of open and close" +
+                            " parentheses match\n")
                 bpos += 1
-            elif char == ',':
-                continue
+
+            # add leaf nodes 
             else:
-                branches.append([char])
-                n = TreeTableNode(char)
+                branches.append([token])
+                n = TreeTableNode(token)
                 current_node.add_child(n)
                 bpos += 1
-        self.root.printTree()
+        
+        print(branches)
         return branches
 
     def parentChildFinder(self, branches):
@@ -153,6 +216,7 @@ class TreeTable:
                     children[j].append(i)
             else:
                 parents.append(-1)
+        print( (parents, children) )
         return (parents, children)
 
     
