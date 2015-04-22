@@ -15,7 +15,7 @@ class TestTreeMakerMethods(unittest.TestCase):
         self.fo = open(self.fname, 'w+')
 
 
-    # Test the normal operation of preprocess()
+    # Test the normal operation of preprocess
     def test_preprocess_normal(self):
         self.fo.write('(a:0.5,b:0.7,(c:0.0002,d:0.1,(e:0.99)))')
         # close the file since TreeTable is going to open it
@@ -55,6 +55,13 @@ class TestTreeMakerMethods(unittest.TestCase):
     
     def test_branchfinder_missing_end_paren(self):
         self.fo.write('(a:0.5,b:0.7')
+        self.fo.close()
+
+        with self.assertRaises(TreeMaker.TreeFileError):
+            TreeMaker.TreeTable(self.fname)
+
+    def test_branchfinder_parens_mismatch(self):
+        self.fo.write('(a:0.5,b:0.7))')
         self.fo.close()
 
         with self.assertRaises(TreeMaker.TreeFileError):
