@@ -25,7 +25,7 @@ import re
 import queue
 
 
-# exception to demonstrate poorly formed Newick file
+# exception to demonstrate badly formatted tree (newick) file
 class TreeFileError(Exception):
     pass
 
@@ -49,10 +49,17 @@ class TreeTable:
     def __init__(self, inFile):
         self.fo = open(inFile, "r")
         fs = self.fo.read();
-        self.processed = self.preprocess(fs)
-        self.branches = self.branchFinder(self.processed)
-        self.parents, self.children = self.parentChildFinder(self.branches)
-        self.fo.close()
+
+        # close the file when propogating the TreeFileError
+        try:
+            self.processed = self.preprocess(fs)
+            self.branches = self.branchFinder(self.processed)
+            self.parents, self.children = self.parentChildFinder(self.branches)
+            self.fo.close()
+        except TreeFileError as err:
+            self.fo.close()
+            raise(err)
+
 
     def get_root(self):
         return self.root
@@ -136,18 +143,18 @@ class TreeTable:
                 
                 # newick file must begin with open parens
                 if i == 0 and token != '(':
-                    raise TreeFileError("Tree file is not properly formatted" +
+                    raise TreeFileError("\nTree file is not properly formatted" +
                                         "\n\t-- must start with a \'(\'" +
-                                        " character")
+                                        " character.\n")
                 # newick file must end with close parens
                 elif i == len(processedString) - 1 and token != ')':
-                    raise TreeFileError("Tree file is not properly formatted" +
+                    raise TreeFileError("\nTree file is not properly formatted" +
                                         "\n\t-- must end with a \')\'" +
-                                        " character")
+                                        " character\n")
                 else:
                     continue
 
-            # descending down a tree level
+            # descending a tree level
             if token == '(':
                 opens.append(i)
                 # add a child node to the current node
@@ -159,15 +166,22 @@ class TreeTable:
                 current_node = node
                 node_identifier += 1
                 
+            # ascending a tree level(s)
             elif token == ')':
+                # 
                 branches.append([])
-                for token2 in processedString[opens.pop()+1:i]:
-                    if token2 in [',', '(', ')']:
-                        continue
-                    else:
-                        branches[bpos].append(token2)
-                        if current_node != self.root:
-                            current_node = current_node.parent[0]
+                try:
+                    for token2 in processedString[opens.pop()+1:i]:
+                        if token2 in [',', '(', ')']:
+                            continue
+                        else:
+                            branches[bpos].append(token2)
+                            if current_node != self.root:
+                                current_node = current_node.parent[0]
+                except IndexError:
+                    raise TreeFileError("\nTree file is not properly formatted" +
+                            "\n\t-- ensure number of open and close" +
+                            " parentheses match\n")
                 bpos += 1
 
             # add leaf nodes 
