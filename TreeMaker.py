@@ -42,6 +42,11 @@ class TreeTableNode:
     def add_parent(self, obj):
         self.parent.append(obj)
 
+    def printTree(self, level=0):
+        print ('\t' * level + repr(level) + self.data + '-' + repr(len(self.children)) + ' ' +self.name)
+        for child in self.children:
+            child.printTree(level+1)
+
 
 class TreeTable:
 
@@ -128,6 +133,7 @@ class TreeTable:
                 n = TreeTableNode(char)
                 current_node.add_child(n)
                 bpos += 1
+        self.root.printTree()
         return branches
 
     def parentChildFinder(self, branches):
@@ -148,3 +154,5 @@ class TreeTable:
             else:
                 parents.append(-1)
         return (parents, children)
+
+    
