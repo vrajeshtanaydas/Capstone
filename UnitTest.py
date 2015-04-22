@@ -37,14 +37,33 @@ class TestTreeMakerMethods(unittest.TestCase):
     
 
     # Test bad characters in file to preprocess
-    def test_preprocess_wrong_1(self):
-        self.fo.write('{a:0.5,b:0.7}')
+    def test_preprocess_bad_end_char(self):
+        self.fo.write('(a:0.5,b:0.7)>')
         self.fo.close()
 
-        with self.assertRaises(TreeMaker.NewickFileError) as cm:
+        with self.assertRaises(TreeMaker.TreeFileError):
             TreeMaker.TreeTable(self.fname)
 
 
+    def test_branchfinder_missing_first_paren(self):
+        self.fo.write('a:0.5,b:0.7)')
+        self.fo.close()
+
+        with self.assertRaises(TreeMaker.TreeFileError):
+            TreeMaker.TreeTable(self.fname)
+
+    
+    def test_branchfinder_missing_end_paren(self):
+        self.fo.write('(a:0.5,b:0.7')
+        self.fo.close()
+
+        with self.assertRaises(TreeMaker.TreeFileError):
+            TreeMaker.TreeTable(self.fname)
+
+
+    def test_branchfinder_empty(self):
+        self.fo.close()
+        #TreeMaker.TreeTable(self.fname)
 
     def tearDown(self):
         pass
