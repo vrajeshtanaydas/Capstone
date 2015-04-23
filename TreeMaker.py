@@ -96,11 +96,9 @@ class TreeTable:
             if char in ['(', ')']:
                 processed_string.append(char)
                 pos += 1
-
             # don't include commas
             elif char == ',':
                 pos += 1
-                continue
 
             # store a genome name as a string
             else:
@@ -120,7 +118,6 @@ class TreeTable:
                     raise TreeFileError("Third argument must be a properly" +
                                         " formatted Newick file" +
                                         "\n\t -- check last character in file")
-
         return processed_string
 
 
@@ -177,18 +174,14 @@ class TreeTable:
                 branches.append([])
                 try:
                     for token2 in processedString[opens.pop()+1:i]:
-                        if token2 in [',', '(', ')']:
                             continue
                         else:
                             branches[bpos].append(token2)
-                            if current_node != self.root:
-                                current_node = current_node.parent[0]
                 except IndexError:
                     raise TreeFileError("\nTree file is not properly formatted" +
                             "\n\t-- ensure number of open and close" +
                             " parentheses match\n")
                 bpos += 1
-
             # add leaf nodes 
             else:
                 branches.append([token])
