@@ -174,9 +174,11 @@ class TreeTable:
                 branches.append([])
                 try:
                     for token2 in processedString[opens.pop()+1:i]:
+                        if token2 in ['(', ')']:
                             continue
                         else:
                             branches[bpos].append(token2)
+                    current_node = current_node.parent[0]
                 except IndexError:
                     raise TreeFileError("\nTree file is not properly formatted" +
                             "\n\t-- ensure number of open and close" +
