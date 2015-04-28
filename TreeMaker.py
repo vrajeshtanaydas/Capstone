@@ -189,7 +189,7 @@ class TreeTable:
                 branches.append([token])
                 n = TreeTableNode(token)
                 current_node.add_child(n)
-                n.add_parent(current)
+                n.add_parent(current_node)
                 bpos += 1
         return branches
 
