@@ -189,9 +189,8 @@ class TreeTable:
                 branches.append([token])
                 n = TreeTableNode(token)
                 current_node.add_child(n)
+                n.add_parent(current)
                 bpos += 1
-        
-        print(branches)
         return branches
 
     def parentChildFinder(self, branches):

@@ -1,7 +1,7 @@
 import os
 
 def main(sequences, output_file):
-    outfile = open(output_file, "w")
+    outfile = open(output_file + ".txt", "w")
     # get the genome names
     species = sequences[0].SNPList[0].aGenomes
     species += sequences[0].SNPList[0].tGenomes

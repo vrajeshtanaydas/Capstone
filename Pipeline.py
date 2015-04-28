@@ -50,6 +50,7 @@ f.close()
 # expect second argument for the output file
 try:
     outputFile = sys.argv[2]
+    outputFile.replace(".txt", "")
 except Exception:
     print(help_message)
     raise Exception("No argument provided as output")
