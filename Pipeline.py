@@ -54,6 +54,10 @@ try:
 except Exception:
     print(help_message)
     raise Exception("No argument provided as output")
+try:
+    f = open(outputFile + ".txt", "w")
+except Exception:
+    raise Exception("Output directory does not exist")
 
 try:
     treeFile = sys.argv[3]
