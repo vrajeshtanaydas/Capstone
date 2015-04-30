@@ -59,7 +59,6 @@ class TreeTable:
         try:
             self.processed = self.preprocess(fs)
             self.branches = self.branchFinder(self.processed)
-            self.parents, self.children = self.parentChildFinder(self.branches)
             self.fo.close()
         except TreeFileError as err:
             self.fo.close()
@@ -193,6 +192,8 @@ class TreeTable:
                 bpos += 1
         return branches
 
+
+    # This method used for debugging
     def parentChildFinder(self, branches):
         parents = []
         children = [[] for i in range(len(branches))]
