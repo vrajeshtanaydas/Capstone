@@ -1,4 +1,4 @@
-Capstone
+IBR-Capstone
 ========
 
 Increasing Biogeographical Resolution
